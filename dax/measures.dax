@@ -1,0 +1,22 @@
+// Itikan Executive Dashboard - DAX measures
+// Semantic model: Sales_Clean, Shipping_Clean, Inventory_Clean, Date_Dimension
+
+// ---------- Sales (table: Sales_Clean) ----------
+Total Revenue = SUM ( Sales_Clean[Order Subtotal] )
+
+Total Profit = SUM ( Sales_Clean[Order Profit] )
+
+// The CEO's key pricing indicator: profit as a share of revenue
+Profit Pct = DIVIDE ( [Total Profit], [Total Revenue], 0 )
+
+Order Count = DISTINCTCOUNT ( Sales_Clean[Order ID] )
+
+// ---------- Fulfilment (table: Shipping_Clean) ----------
+Avg Days to Pick = AVERAGE ( Shipping_Clean[Days to pick] )
+
+Avg Days to Ship = AVERAGE ( Shipping_Clean[Days to Ship] )
+
+// Shipping charged to customers minus what the carrier charged us
+Shipping Margin =
+    SUM ( Sales_Clean[Shipping Revenue] )
+        - SUM ( Shipping_Clean[Shipping Cost (Carrier)] )
